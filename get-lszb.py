@@ -12,6 +12,7 @@ import optparse
 
 parser = optparse.OptionParser('get-lszs')
 parser.add_option('-o', '--outdir',	dest='outdir', help='[optional] output directory')
+parser.add_option('-s', '--single-file',	action='store_true', dest='single', help='[optional] output directory')
 (opts, args) = parser.parse_args()
 
 headers = { 'Host' : 'www.bernairport.ch',
@@ -42,8 +43,7 @@ def getLSZB(tabletyp):
     rows = flt_table.findAll('tr')
     
     # prepare json dict with empty array
-    timetable = {}
-    timetable['data'] = []
+    timetable = []
     
     for row in rows:
         entry = {}
@@ -57,13 +57,22 @@ def getLSZB(tabletyp):
                 entry['gate']          = row.find('td', {'class', 'gate'}).text  # gate only with departures
             entry['status']        = row.find('td', {'class', 'status'}).text
             entry['privateflight'] = row.find('td', {'class', 'privateflight'}).text
-            timetable['data'].append(entry)
+            entry['direction'] = 'departure' if 'dep' in tabletyp.lower() else 'arrival'
+            timetable.append(entry)
     
     return timetable
 
 def writeJsonFile(filename, data):
     with open(str(filename), 'w') as outfile:
         json.dump(data, outfile)
+        
+def getTime(json):
+    try:
+        # Also convert to int since update_time will be string.  When comparing
+        # strings, "10" is smaller than "2".
+        return int(json['page']['update_time'])
+    except KeyError:
+        return 0
 
 #%%
 def main():
@@ -72,10 +81,17 @@ def main():
         if(opts.outdir is not None):
             outdir = opts.outdir
             
-        table = getLSZB('arr')
-        writeJsonFile(outdir + '/arrivals.timetable.json', table)
-        table = getLSZB('dep')
-        writeJsonFile(outdir + '/departures.timetable.json', table)
+        if(opts.single is not None):
+            table = getLSZB('arr')
+            table = table + getLSZB('dep')
+            # sort by arrital time
+            table = sorted(table, key=lambda k: k['scheduledTime']) 
+            writeJsonFile(outdir + '/timetable.json', table)
+        else:
+            table = getLSZB('arr')
+            writeJsonFile(outdir + '/arrivals.timetable.json', table)
+            table = getLSZB('dep')
+            writeJsonFile(outdir + '/departures.timetable.json', table)
         
     except KeyboardInterrupt:
         print('')
