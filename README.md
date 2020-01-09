@@ -33,7 +33,8 @@ Outputs: `belp/arrivals.timetable.json` and `belp/departures.timetable.json`
       "estimatedTime": "",
       "gate": "",
       "status": "",
-      "privateflight": "Private Flight"
+      "privateflight": "Private Flight",
+      "direction" : "arrival"
     }
 }
 ```
