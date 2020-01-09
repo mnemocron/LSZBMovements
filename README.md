@@ -35,6 +35,7 @@ Outputs: `belp/arrivals.timetable.json` and `belp/departures.timetable.json`
       "status": "",
       "privateflight": "Private Flight"
     }
+  ]
 }
 ```
 
