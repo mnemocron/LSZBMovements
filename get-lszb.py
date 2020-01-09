@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Thu Jan  9 18:56:27 2020
+
+@author: simon
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Tue Jan  7 13:47:21 2020
 
 @author: simon
@@ -81,16 +88,18 @@ def main():
         if(opts.outdir is not None):
             outdir = opts.outdir
             
+        table = {}
+        table['data'] = []
         if(opts.single is not None):
-            table = getLSZB('arr')
-            table = table + getLSZB('dep')
+            table['data'] = getLSZB('arr')
+            table['data'] = table['data'] + getLSZB('dep')
             # sort by arrital time
-            table = sorted(table, key=lambda k: k['scheduledTime']) 
+            table['data'] = sorted(table['data'], key=lambda k: k['scheduledTime']) 
             writeJsonFile(outdir + '/timetable.json', table)
         else:
-            table = getLSZB('arr')
+            table['data'] = getLSZB('arr')
             writeJsonFile(outdir + '/arrivals.timetable.json', table)
-            table = getLSZB('dep')
+            table['data'] = getLSZB('dep')
             writeJsonFile(outdir + '/departures.timetable.json', table)
         
     except KeyboardInterrupt:
