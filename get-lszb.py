@@ -5,21 +5,14 @@ Created on Thu Jan  9 18:56:27 2020
 @author: simon
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan  7 13:47:21 2020
-
-@author: simon
-"""
-
 import requests					# requesting webpages
 from bs4 import BeautifulSoup 	# parsing html
 import json
 import optparse
 
-parser = optparse.OptionParser('get-lszs')
+parser = optparse.OptionParser('get-lszb')
 parser.add_option('-o', '--outdir',	dest='outdir', help='[optional] output directory')
-parser.add_option('-s', '--single-file',	action='store_true', dest='single', help='[optional] output directory')
+parser.add_option('-s', '--single-file',	action='store_true', dest='single', help='[optional] merge arrival/departures into single file')
 (opts, args) = parser.parse_args()
 
 headers = { 'Host' : 'www.bernairport.ch',

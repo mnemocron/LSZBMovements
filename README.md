@@ -12,6 +12,17 @@ This script downloads the html table from the LSZB website: [bernairport.ch](htt
 
 ### Usage
 
+```
+python3 get-lszb.py --help
+Usage: get-lszb
+
+Options:
+  -h, --help            show this help message and exit
+  -o OUTDIR, --outdir=OUTDIR
+                        [optional] output directory
+  -s, --single-file     [optional] merge arrival/departures into single file
+```
+
 Use the `-o` parameter to specify the output directory.
 
 ```bash
