@@ -1,5 +1,6 @@
 # LSZBMovements
-Website Scraper for LSZB Airport arrivals/departures Table
+Website Scraper for LSZB Airport arrivals/departures Table.
+Serves the arrivals/departures Table as a JSON API (files).
 
 ---
 
